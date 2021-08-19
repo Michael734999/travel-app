@@ -16,7 +16,7 @@ app.use(cors());
 
 app.use(express.static('dist'));
 
-const port = 8081;
+const port = 3000;
 
 app.listen(port, () => {
     console.log(`Running on localhost: ${port}`);
