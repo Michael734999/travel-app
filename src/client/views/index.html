@@ -14,16 +14,17 @@
             <div class="subHeader" id='welcome'>Welcome To</div>
             <h1>Travel Planner</h1>
             <div class="subHeader">Find new possibilities . . .</div>
+            <button id="goTo"><a href="#travel1">Plan your <br>trip</a></button>
         </div>
     </header>
     <main>
         <section class="hero" id="travel1">
-            <div class="content">
+            <div class="content" id='content'>
                 <h2>Setup your Travel Planner:</h2>
                 <form onsubmit="return Client.handleSubmit(event)">
-                    <label class="city" for="city"><h3>Please enter your destination city</h3></label>
+                    <label class="city" for="city"><h3>Destination City:</h3></label>
                     <input id="city" class="city" placeholder="Where to..." name="city" type="text" required>
-                    <label for="date" class="text-center"><h3>enter your arrival date</h3></label>
+                    <label for="date" class="text-center"><h3>Arrival Date:</h3></label>
                     <input type="date" name="date" id="date" class="date" min="0" required><br>
                     <button type="submit" class="submit" id="submit">Search</button>
                 </form>
