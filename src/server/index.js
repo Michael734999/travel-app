@@ -16,12 +16,12 @@ app.use(cors());
 
 app.use(express.static('dist'));
 
-app.get('/', (req, res) => {
-    res.sendFile('dist/index.html');
-});
-
 const port = 8081;
 
 app.listen(port, () => {
     console.log(`Running on localhost: ${port}`);
+});
+
+app.get('/', (req, res) => {
+    res.sendFile('dist/index.html');
 });
