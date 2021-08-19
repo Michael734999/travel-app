@@ -25,9 +25,19 @@
                     <label class="city" for="city"><h3>Destination City:</h3></label>
                     <input id="city" class="city" placeholder="Where to..." name="city" type="text" required>
                     <label for="date" class="text-center"><h3>Arrival Date:</h3></label>
-                    <input type="date" name="date" id="date" class="date" min="0" required><br>
+                    <input type="date" name="date" id="departDate" class="date" min="0" required><br>
                     <button type="submit" class="submit" id="submit">Search</button>
                 </form>
+            </div>
+            <div id="info">
+                <article>
+                    <h2 id='cityInfo'></h2>
+                    <div id='wData'>
+                        <div id="temp"></div>
+                        <div id="info"></div>
+                    </div>
+                </article>
+                <div id="save"></div>
             </div>
         </section>
         <section class="hero" id="travel2">
