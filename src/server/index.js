@@ -1,3 +1,5 @@
+let projectData = {};
+
 const dotenv = require('dotenv');
 dotenv.config();
 
