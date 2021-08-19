@@ -27,3 +27,27 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
     res.sendFile('dist/index.html');
 });
+
+const geonamesAPIKey = process.env.GEONAMES_API_KEY;
+const weatherbitAPIKey = process.env.WEATHERBIT_API_KEY;
+const pixabayAPIKey = process.env.PIXABAY_API_KEY;
+
+app.get('/data', () => {
+    res.send({
+        geonamesAPIKey: geonamesAPIKey,
+        weatherbitAPIKey: weatherbitAPIKey,
+        pixabayAPIKey: pixabayAPIKey,
+    })
+});
+
+app.get('/get', (req, res) => {
+    res.send(projectData)
+});
+
+app.post('/post', (req, res) => {
+    projectData = req.body;
+    res.send({
+        message: 'Reseived Post'
+    });
+    console.log(projectData)
+})
