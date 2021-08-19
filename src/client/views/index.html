@@ -10,29 +10,34 @@
 
 <body>
     <header>
-        <nav>
-            <ul>
-                <a href="">
-                    <li></li>
-                </a>
-                <a href="">
-                    <li></li>
-                </a>
-                <a href="">
-                    <li></li>
-                </a>
-            </ul>
-        </nav>
         <div class="title">
+            <div class="subHeader" id='welcome'>Welcome To</div>
             <h1>Travel Planner</h1>
+            <div class="subHeader">Find new possibilities . . .</div>
         </div>
     </header>
     <main>
-        <section class="hero"></section>
-        <section class="hero"></section>
-        <section class="hero"></section>
+        <section class="hero" id="travel1">
+            <div class="content">
+                <h2>Setup your Travel Planner:</h2>
+                <form onsubmit="return Client.handleSubmit(event)">
+                    <label class="city" for="city"><h3>Please enter your destination city</h3></label>
+                    <input id="city" class="city" placeholder="Where to..." name="city" type="text" required>
+                    <label for="date" class="text-center"><h3>enter your arrival date</h3></label>
+                    <input type="date" name="date" id="date" class="date" min="0" required><br>
+                    <button type="submit" class="submit" id="submit">Search</button>
+                </form>
+            </div>
+        </section>
+        <section class="hero" id="travel2">
+            <div class="content">
+                <h2>Your Trips:</h2>
+            </div>
     </main>
     <footer></footer>
+    <div class="subfooter">
+        &copy;2021
+    </div>
 </body>
 <script>
     // if ('serviceWorker' in navigator) {
