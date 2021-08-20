@@ -70,10 +70,23 @@ const dateHandler = (upcoming) => {
 }
 
 // add handle submit function 
+
+const handleSubmit = async(e) => {
+    e.preventDefault();
+
+    // const global vars 
+    const city = document.getElementById('city');
+    const departDate = document.getElementById('departDate');
+    const info = document.getElementById('info');
+    const temp = document.getElementById('temp');
+
+}
+
 // Exporting all functions
 export {
     getWeatherBit,
     getGeoName,
     getPixaBay,
-    dateHandler
+    dateHandler,
+    handleSubmit
 };
