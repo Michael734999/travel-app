@@ -1,5 +1,7 @@
 let projectData = {};
 
+let savedData = [];
+
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -17,6 +19,8 @@ const cors = require('cors');
 const { response } = require('express');
 app.use(cors());
 
+const axios = require('axios');
+
 app.use(express.static('dist'));
 
 const port = 3000;
@@ -29,108 +33,58 @@ app.get('/', (req, res) => {
     res.sendFile('dist/index.html');
 });
 
+// create api keys 
 const geonamesAPIKey = process.env.GEONAMES_API_KEY;
 const weatherbitAPIKey = process.env.WEATHERBIT_API_KEY;
 const pixabayAPIKey = process.env.PIXABAY_API_KEY;
 
-// add post route 
-app.post('/data', async(req, res) => {
-
-    const city = req.body.city;
-
-    // construct the api urls 
-    const geonamesUrl = `http://api.geonames.org/searchJSON?q=${city}&maxRows=1&username=${geonamesAPIKey}`
-    const currentWeatherbitUrl = `https://api.weatherbit.io/v2.0/current?lat=${projectData.lat}&lon=${projectData.lng}&key=${weatherbitAPIKey}`;
-    const futureWeatherbitUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${projectData.lat}&lon=${projectData.lng}&key=${weatherbitAPIKey}`;
-    const getPixabayCity = `&q=${projectData.city}&orientation=horizontal&image_type=photo`;
-    const getPixabayCountry = `&q=${projectData.countryName}&orientation=horizontal&image_type=photo`;
-    let pixabayUrl = `https://pixabay.com/api/?key=${pixabayAPIKey}${getPixabayCity}`;
-    let imageUrl = '';
-
-    // fetch geonames data 
-    await fetch(geonamesUrl)
-        .then((response) => response.json())
-        .then((response) => {
-            let { lat, lng, cityName, countryName } = response.geonames[0];
-            projectData = {
-                city: cityName,
-                countryName,
-                lat,
-                lng
-            }
-        })
-        .catch((error) => {
-            console.log('error', error)
-        });
-
-    // fetch current weather data
-    await fetch(currentWeatherbitUrl)
-        .then((response) => response.json())
-        .then((response) => {
-            projectData = {
-                ...projectData,
-                currentWeather: response.projectData[0]
-            }
-        })
-        .catch((error) => {
-            console.log('error', error)
-        });
-
-    // fetch future weather data
-    await fetch(futureWeatherbitUrl)
-        .then((response) => response.json())
-        .then((response) => {
-            projectData = {
-                ...projectData,
-                futureWeather: response.projectData
-            }
-        })
-        .catch((error) => {
-            console.log('error', error)
-        });
-
-    // fetch pixabay data
-    await fetch(pixabayUrl)
-        .then((response) => response.json())
-        .then((response) => {
-            imageUrl = response.hits[0].webformatURL;
-        })
-        .catch((error) => {
-            console.log('error', error)
-        });
-
-    if (imageUrl === '') {
-        let pixabayUrl = `https://pixabay.com/api/?key=${pixabayAPIKey}${getPixabayCountry}`
-        await fetch(pixabayUrl)
-            .then((response) => response.json())
-            .then((response) => {
-                imageUrl = response.hits[0].webformatURL;
-            })
-            .catch((error) => {
-                console.log('error', error)
-            });
-    }
-
-    projectData = {
-        ...projectData,
-        imageUrl
-    }
-
-    res.send(projectData)
+// get geoname post route 
+app.post('/getGeoname', async(req, res) => {
+    const get = await axios.get(`${req.body.url}&username=${geonamesAPIKey}`)
+    res.send(get.data);
 });
 
+// get weatherbit post route 
+app.post('/getWeatherbit', async(req, res) => {
+    const get = await axios.get(`${req.body.url}&username=${weatherbitAPIKey}`)
+    res.send(get.data);
+});
+
+// get pixabay post route 
+app.post('/getPixabay', async(req, res) => {
+    const get = await axios.get(`${req.body.url}&username=${pixabayAPIKey}`)
+    res.send(get.data);
+});
+
+// add post route 
+app.post('/savePost', (req, res) => {
+    projectData = req.body;
+    res.send(projectData);
+})
+
 // add get route 
-app.get('/get', (req, res) => {
-    let pixabayUrl = `https://pixabay.com/api/?key=${pixabayAPIKey}&q=city&orientation=horizontal&image_type=photo`
-    fetch(pixabayUrl, { method: 'POST' })
-        .then((response) => response.json())
-        .then((e) => {
-            const r = Math.floor(Math.random() * 10);
-            const img = projectData.hits[r];
-            if (img !== null || img !== undefined)
-                res.send({ pixabayUrl: img.largeImageURL })
-        })
-        .catch((error) => {
-            console.log('error', error)
-        });
+app.get('/getPost', (req, res) => {
+    res.json(savedData);
+})
+
+// add post route to save trips data 
+app.post('/save', (req, res) => {
+    let save = {...req.body };
+    savedData.push(save);
+    res.send(save);
+})
+
+// add a get route to access saved data 
+app.get('/getSave', (req, res) => {
+    res.json(savedData);
+})
+
+// add a post route to remove trips 
+app.post('/remove', (req, res) => {
+    const trip = req.body.id;
+
+    savedData = savedData.filter((current) => {
+        return current.id != trip;
+    });
+    res.json(savedData)
 })
