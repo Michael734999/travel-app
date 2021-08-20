@@ -119,6 +119,7 @@ app.post('/data', async(req, res) => {
     res.send(projectData)
 });
 
+// add get route 
 app.get('/get', (req, res) => {
     let pixabayUrl = `https://pixabay.com/api/?key=${pixabayAPIKey}&q=city&orientation=horizontal&image_type=photo`
     fetch(pixabayUrl, { method: 'POST' })
