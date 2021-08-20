@@ -118,3 +118,18 @@ app.post('/data', async(req, res) => {
 
     res.send(projectData)
 });
+
+app.get('/get', (req, res) => {
+    let pixabayUrl = `https://pixabay.com/api/?key=${pixabayAPIKey}&q=city&orientation=horizontal&image_type=photo`
+    fetch(pixabayUrl, { method: 'POST' })
+        .then((response) => response.json())
+        .then((e) => {
+            const r = Math.floor(Math.random() * 10);
+            const img = projectData.hits[r];
+            if (img !== null || img !== undefined)
+                res.send({ pixabayUrl: img.largeImageURL })
+        })
+        .catch((error) => {
+            console.log('error', error)
+        });
+})
