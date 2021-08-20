@@ -69,6 +69,18 @@ const dateHandler = (upcoming) => {
     return daysLeft;
 }
 
+// update the UI 
+const updateUI = () => {
+    return ``
+}
+
+// UI to show the saved trips
+const showSaved = () => {
+    const savedTrips = JSON.parse(
+        localStorage.getItem('')
+    );
+}
+
 // add handle submit function 
 
 const handleSubmit = async(e) => {
@@ -79,6 +91,52 @@ const handleSubmit = async(e) => {
     const departDate = document.getElementById('departDate');
     const info = document.getElementById('info');
     const temp = document.getElementById('temp');
+    const save = document.getElementById('save');
+    const form = [city, departDate];
+
+    try {
+        let geoname;
+        geoname = await Client.getGeoName(city.value);
+        if (geoname.geonames.length === 0) return;
+
+        const lat = geoname.geonames[0].lat;
+        const long = geoname.geonames[0].lng;
+
+        const daysLeft = Client.dateHandler(departDate.value);
+
+        let weatherbit;
+        weatherbit = await Client.getWeatherBit(daysLeft, lat, long);
+
+        let pixabay;
+        pixabay = await Client.getPixaBay(
+            'photo',
+            'travel',
+            true,
+            'popular',
+            'horizontal',
+            city.value
+        );
+
+        const projectData = {
+            id: geoname.geonames[0].geonameId,
+            departDate: departDate.value,
+            city: city.value,
+            geoname: {...geoname.geonames[0] },
+            weatherbit: [...weatherbit.data],
+            pixabay: {...pixabay.hts[0] }
+        };
+
+        postProjectData('/savePost', projectData)
+            .then(async(search) => {
+                let cityImg = '';
+
+                if (search.pixabay.webformatURL) {
+                    cityImg = search.pixabay.webformatURL;
+                }
+            })
+    } catch (error) {
+        console.log('error', error);
+    }
 
 }
 
@@ -87,6 +145,5 @@ export {
     getWeatherBit,
     getGeoName,
     getPixaBay,
-    dateHandler,
-    handleSubmit
+    dateHandler
 };
