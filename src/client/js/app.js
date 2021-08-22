@@ -1,7 +1,7 @@
 // getWeatherBit function 
-const getWeatherBit = async(countdown, lat, long) => {
+const getWeatherBit = async(daysLeft, lat, long) => {
     let format = 'hourly';
-    if (countdown >= 8) {
+    if (daysLeft > 7) {
         format = 'daily';
     }
 
@@ -13,31 +13,23 @@ const getWeatherBit = async(countdown, lat, long) => {
         body: JSON.stringify({ url: `https://api.weatherbit.io/v2.0/forecast/${format}?lat=${lat}&lon=${long}` })
     })
 
-    try {
-        const weatherData = await response.json();
-        return weatherData;
-    } catch (error) {
-        console.log('error', error)
-    }
+    const weatherData = await response.json();
+    return weatherData;
 }
 
 // getGeoName function
-const getGeoName = async(dest) => {
+const getGeoName = async(city) => {
 
     const response = await fetch('/getGeoname', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ url: `http://api.geonames.org/searchJSON?formatted=true&q=${dest}` })
+        body: JSON.stringify({ url: `http://api.geonames.org/searchJSON?formatted=true&q=${city}` })
     })
 
-    try {
-        const nameData = await response.json();
-        return nameData;
-    } catch (error) {
-        console.log('error', error)
-    }
+    const nameData = await response.json();
+    return nameData;
 }
 
 // getPixaBay function 
@@ -53,12 +45,8 @@ const getPixaBay = async(pt, cat, safe, order, format, dest) => {
         body: JSON.stringify({ url: `https://pixabay.com/api/?q=${destination}&image_type=${pt}&category=${cat}&safesearch=${safe}&order=${order}&orientation=${format}` })
     })
 
-    try {
-        const imgData = await response.json();
-        return imgData;
-    } catch (error) {
-        console.log('error', error)
-    }
+    const imgData = await response.json();
+    return imgData;
 }
 
 // date handler function
@@ -70,8 +58,22 @@ const dateHandler = (upcoming) => {
 }
 
 // update the UI 
-const updateUI = () => {
-    return ``
+const updateUI = (pixabayImg, city, daysLeft, weatherbit, id, save = true) => {
+    return `<div id='tripImg'>
+                <img src ='${pixabayImg}' alt='Desination Image'>
+            </div>
+            <div id='tripMain'>
+                <div id='tripData'>
+                ${save ? '<h3>' + city + '</h3>' : '<h3>' + city + '</h3>'}
+                <div id='time'>Your trip is in ${daysLeft} days!</div>
+                </div>
+                <div= id='weather'>
+                    <div id='weatherInfo'>
+                    <div id='temp'>${weatherbit[0].temp}</div>
+                    <div>${weatherbit[0].weather.description}</div>
+                    </div>
+                </div>
+            </div>`;
 }
 
 // UI to show the saved trips
@@ -83,16 +85,25 @@ const showSaved = () => {
 
 // add handle submit function 
 
-const handleSubmit = async(e) => {
-    e.preventDefault();
+const handleSubmit = async(event) => {
+    event.preventDefault();
+
+    const postData = async(url = '', data = {}) => {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        return response.json();
+    };
 
     // const global vars 
     const city = document.getElementById('city');
     const departDate = document.getElementById('departDate');
     const info = document.getElementById('info');
-    const temp = document.getElementById('temp');
     const save = document.getElementById('save');
-    const form = [city, departDate];
 
     try {
         let geoname;
@@ -126,24 +137,39 @@ const handleSubmit = async(e) => {
             pixabay: {...pixabay.hts[0] }
         };
 
-        postProjectData('/savePost', projectData)
+        postData('/savePost', projectData)
             .then(async(search) => {
                 let cityImg = '';
 
                 if (search.pixabay.webformatURL) {
                     cityImg = search.pixabay.webformatURL;
-                }
+                };
+
+                const passSearch = Client.updateUI(
+                    search.pixabay.webformatURL,
+                    search.city,
+                    daysLeft,
+                    search.weatherbit,
+                    search.id
+                );
+
+                info.innerHTML = `
+                <div class='tripInfo'>
+                ${passSearch}
+                </div>
+                `;
             })
     } catch (error) {
         console.log('error', error);
     }
-
-}
+};
 
 // Exporting all functions
 export {
     getWeatherBit,
     getGeoName,
     getPixaBay,
-    dateHandler
+    dateHandler,
+    handleSubmit,
+    updateUI
 };

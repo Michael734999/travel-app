@@ -40,19 +40,19 @@ const pixabayAPIKey = process.env.PIXABAY_API_KEY;
 
 // get geoname post route 
 app.post('/getGeoname', async(req, res) => {
-    const get = await axios.get(`${req.body.url}&username=${geonamesAPIKey}`)
+    const get = await fetch(`${req.body.url}&username=${geonamesAPIKey}`)
     res.send(get.data);
 });
 
 // get weatherbit post route 
 app.post('/getWeatherbit', async(req, res) => {
-    const get = await axios.get(`${req.body.url}&username=${weatherbitAPIKey}`)
+    const get = await fetch(`${req.body.url}&username=${weatherbitAPIKey}`)
     res.send(get.data);
 });
 
 // get pixabay post route 
 app.post('/getPixabay', async(req, res) => {
-    const get = await axios.get(`${req.body.url}&username=${pixabayAPIKey}`)
+    const get = await fetch(`${req.body.url}&username=${pixabayAPIKey}`)
     res.send(get.data);
 });
 
@@ -88,3 +88,5 @@ app.post('/remove', (req, res) => {
     });
     res.json(savedData)
 })
+
+module.exports = app;
