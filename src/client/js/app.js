@@ -1,3 +1,6 @@
+import { response } from "express";
+import fetch from "node-fetch";
+
 // getWeatherBit function 
 const getWeatherBit = async(daysLeft, lat, long) => {
     let format = 'hourly';
@@ -73,6 +76,18 @@ const updateUI = (pixabayImg, city, daysLeft, weatherbit, id, save = true) => {
                     <div>${weatherbit[0].weather.description}</div>
                     </div>
                 </div>
+            </div>
+            <div class='tripManage'>
+                <button type='button' tripID='${id}' onclick="return ${
+                    save ? 'Client.save()' : 'Client.remove()'
+                }">
+                ${
+                    save
+                        ? '<div>Save</div>'
+                        : '<div>Remove</div>'
+                }
+                ${save ? 'Save' : 'Remove'} Trip
+                </button>
             </div>`;
 }
 
@@ -154,7 +169,7 @@ const handleSubmit = async(event) => {
                 );
 
                 info.innerHTML = `
-                <div class='tripInfo'>
+                <div class='trips'>
                 ${passSearch}
                 </div>
                 `;
@@ -164,6 +179,58 @@ const handleSubmit = async(event) => {
     }
 };
 
+const save = async() => {
+    const getPost = async() => {
+        const response = await fetch('/getPost');
+        const search = await response.json();
+        return search;
+    }
+
+    const getSave = async() => {
+        const response = await fetch('/getSave');
+        const savedTrips = await response.json();
+        return savedTrips;
+    }
+
+    const isSaved = (saveId, save) => {
+        if (save.length !== 0) {
+            for (let t of save) {
+                if (t.geoname.geonameId === saveId) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    };
+
+
+
+    let save = await getSave();
+    let search = await getPost();
+
+    if (isSaved(search.id, save)) { return; };
+
+    postData
+}
+
+const remove = async(url = '/remove', data = {}) => {
+    const mainElement = event.target.closest('.trips');
+    const tripId = event.target.dataset.tripId;
+    data = { id: tripId };
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    const save = await response.json();
+
+    localStorage.setItem('save', JSON.stringify(save));
+
+    mainElement.remove();
+}
+
 // Exporting all functions
 export {
     getWeatherBit,
@@ -171,5 +238,6 @@ export {
     getPixaBay,
     dateHandler,
     handleSubmit,
-    updateUI
+    updateUI,
+    remove
 };
