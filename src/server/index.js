@@ -40,20 +40,20 @@ const pixabayAPIKey = process.env.PIXABAY_API_KEY;
 
 // get geoname post route 
 app.post('/getGeoname', async(req, res) => {
-    const get = await axios.get(`${req.body.url}&username=${geonamesAPIKey}`)
-    res.send(get.data);
+    const response = await axios.get(`${req.body.url}&username=${geonamesAPIKey}`)
+    res.send(response.data);
 });
 
 // get weatherbit post route 
 app.post('/getWeatherbit', async(req, res) => {
-    const get = await axios.get(`${req.body.url}&username=${weatherbitAPIKey}`)
-    res.send(get.data);
+    const response = await axios.get(`${req.body.url}&key=${weatherbitAPIKey}`)
+    res.send(response.data);
 });
 
 // get pixabay post route 
 app.post('/getPixabay', async(req, res) => {
-    const get = await axios.get(`${req.body.url}&username=${pixabayAPIKey}`)
-    res.send(get.data);
+    const response = await axios.get(`${req.body.url}&key=${pixabayAPIKey}`)
+    res.send(response.data);
 });
 
 // add post route 
@@ -64,7 +64,7 @@ app.post('/savePost', (req, res) => {
 
 // add get route 
 app.get('/getPost', (req, res) => {
-    res.json(savedData);
+    res.json(projectData);
 })
 
 // add post route to save trips data 
@@ -86,7 +86,7 @@ app.post('/remove', (req, res) => {
     savedData = savedData.filter((current) => {
         return current.id != trip;
     });
-    res.json(savedData)
+    res.json(savedData);
 })
 
 module.exports = app;
