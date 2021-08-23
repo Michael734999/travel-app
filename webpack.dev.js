@@ -6,7 +6,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
     // const nodeExternals = require('webpack-node-externals')
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+    // const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 
 module.exports = {
     entry: './src/client/index.js',
@@ -44,6 +44,6 @@ module.exports = {
             protectWebpackAssets: false
         }),
         new MiniCssExtractPlugin({ filename: '[name].css' }),
-        new NodePolyfillPlugin()
+        // new NodePolyfillPlugin()
     ]
 }
