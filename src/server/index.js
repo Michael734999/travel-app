@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 // const pixabayAPIKey = process.env.PIXABAY_API_KEY;
 
 const geonamesAPIKey = 'm_moore007';
-const weatherbitAPIKey = '06464716ef0747e5b027e387a33a94f';
+const weatherbitAPIKey = '06464716ef0747e5b027e387a33a94f2';
 const pixabayAPIKey = '22995017-915874811d25d243f662f78c0';
 
 // get geoname post route 
