@@ -177,7 +177,7 @@ const handleSubmit = async(event) => {
             city: city.value,
             geoname: {...geoname.geonames[0] },
             weatherbit: [...weatherbit.data],
-            pixabay: {...pixabay.hts[0] }
+            pixabay: {...pixabay.hits[0] }
         };
 
         postData('/savePost', projectData)
