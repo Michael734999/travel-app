@@ -147,8 +147,11 @@ const handleSubmit = async(event) => {
     const departDate = document.getElementById('departDate');
     const info = document.getElementById('info');
 
+    let geoname;
+    let weatherbit;
+    let pixabay;
+
     try {
-        let geoname;
         geoname = await Client.getGeoName(city.value);
         if (geoname.geonames.length === 0) return;
 
@@ -157,10 +160,8 @@ const handleSubmit = async(event) => {
 
         const daysLeft = Client.dateHandler(departDate.value);
 
-        let weatherbit;
         weatherbit = await Client.getWeatherBit(daysLeft, lat, long);
 
-        let pixabay;
         pixabay = await Client.getPixaBay(
             'photo',
             'travel',
@@ -187,7 +188,7 @@ const handleSubmit = async(event) => {
                     cityImg = search.pixabay.webformatURL;
                 };
 
-                const passSearch = Client.updateUI(
+                const tripList = Client.updateUI(
                     search.pixabay.webformatURL,
                     search.city,
                     daysLeft,
@@ -197,7 +198,7 @@ const handleSubmit = async(event) => {
 
                 info.innerHTML = `
                 <div class='trips'>
-                ${passSearch}
+                ${tripList}
                 </div>
                 `;
             })
