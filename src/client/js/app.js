@@ -210,6 +210,18 @@ const handleSubmit = async(event) => {
 // function to save trips 
 const save = async() => {
     const save = document.getElementById('save');
+
+    const postData = async(url = '', data = {}) => {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        return response.json();
+    };
+
     const getPost = async() => {
         const response = await fetch('/getPost');
         const search = await response.json();
