@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    Client.showSaved();
+    showSaved();
 });
 // getWeatherBit function 
 const getWeatherBit = async(daysLeft, lat, long) => {
