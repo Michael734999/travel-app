@@ -33,9 +33,13 @@ app.get('/', (req, res) => {
 });
 
 // create api keys 
-const geonamesAPIKey = process.env.GEONAMES_API_KEY;
-const weatherbitAPIKey = process.env.WEATHERBIT_API_KEY;
-const pixabayAPIKey = process.env.PIXABAY_API_KEY;
+// const geonamesAPIKey = process.env.GEONAMES_API_KEY;
+// const weatherbitAPIKey = process.env.WEATHERBIT_API_KEY;
+// const pixabayAPIKey = process.env.PIXABAY_API_KEY;
+
+const geonamesAPIKey = 'm_moore007';
+const weatherbitAPIKey = '06464716ef0747e5b027e387a33a94f';
+const pixabayAPIKey = '22995017-915874811d25d243f662f78c0';
 
 // get geoname post route 
 app.post('/getGeoname', async(req, res) => {
