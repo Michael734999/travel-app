@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 // getWeatherBit function 
 const getWeatherBit = async(daysLeft, lat, long) => {
     let format = 'hourly';
