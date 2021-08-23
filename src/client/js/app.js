@@ -4,9 +4,7 @@ import fetch from "node-fetch";
 // getWeatherBit function 
 const getWeatherBit = async(daysLeft, lat, long) => {
     let format = 'hourly';
-    if (daysLeft > 7) {
-        format = 'daily';
-    }
+    if (daysLeft > 7) format = 'daily';
 
     const response = await fetch('/getWeatherbit', {
         method: 'POST',
@@ -16,8 +14,8 @@ const getWeatherBit = async(daysLeft, lat, long) => {
         body: JSON.stringify({ url: `https://api.weatherbit.io/v2.0/forecast/${format}?lat=${lat}&lon=${long}` })
     })
 
-    const weatherData = await response.json();
-    return weatherData;
+    const weatherbit = await response.json();
+    return weatherbit;
 }
 
 // getGeoName function
@@ -31,8 +29,8 @@ const getGeoName = async(city) => {
         body: JSON.stringify({ url: `http://api.geonames.org/searchJSON?formatted=true&q=${city}` })
     })
 
-    const nameData = await response.json();
-    return nameData;
+    const geoname = await response.json();
+    return geoname;
 }
 
 // getPixaBay function 
@@ -48,8 +46,8 @@ const getPixaBay = async(pt, cat, safe, order, format, dest) => {
         body: JSON.stringify({ url: `https://pixabay.com/api/?q=${destination}&image_type=${pt}&category=${cat}&safesearch=${safe}&order=${order}&orientation=${format}` })
     })
 
-    const imgData = await response.json();
-    return imgData;
+    const pixabay = await response.json();
+    return pixabay;
 }
 
 // date handler function
@@ -67,7 +65,11 @@ const updateUI = (pixabayImg, city, daysLeft, weatherbit, id, save = true) => {
             </div>
             <div id='tripMain'>
                 <div id='tripData'>
-                ${save ? '<h3>' + city + '</h3>' : '<h3>' + city + '</h3>'}
+                ${
+                    save 
+                    ? '<h3>' + city + '</h3>' 
+                    : '<h3>' + city + '</h3>'
+                }
                 <div id='time'>Your trip is in ${daysLeft} days!</div>
                 </div>
                 <div= id='weather'>
