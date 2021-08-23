@@ -54,7 +54,7 @@ const getPixaBay = async(pt, cat, safe, order, format, dest) => {
 const dateHandler = (upcoming) => {
     const dif = new Date(upcoming) - new Date();
     let daysLeft = new Date(dif) / (24 * 3600 * 1000);
-    daysleft = Number(math.round(daysLeft));
+    daysLeft = Number(Math.round(daysLeft));
     return daysLeft;
 }
 
