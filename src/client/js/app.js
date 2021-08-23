@@ -94,8 +94,34 @@ const updateUI = (pixabayImg, city, daysLeft, weatherbit, id, save = true) => {
 // UI to show the saved trips
 const showSaved = () => {
     const savedTrips = JSON.parse(
-        localStorage.getItem('')
+        localStorage.getItem('saved')
     );
+
+    const save = document.getElementById('save');
+
+    if (savedTrips != null) {
+        let newFragment = new DocumentFragment();
+        for (let savedTrip of savedTrips) {
+
+            const daysLeft = Client.dateHandler(
+                savedTrip.departDate
+            );
+
+            const tripList = document.createElement('div');
+            tripList.classList.add('savedTrips');
+
+            tripList.innerHTML = Client.updateUI(
+                savedTrip.pixabay.webformatURL,
+                savedTrip.city,
+                daysLeft,
+                savedTrip.weatherbit,
+                savedTrip.id,
+                false
+            );
+            newFragment.appendChild(tripList);
+        }
+        save.appendChild(newFragment);
+    }
 }
 
 // add handle submit function 
@@ -118,7 +144,6 @@ const handleSubmit = async(event) => {
     const city = document.getElementById('city');
     const departDate = document.getElementById('departDate');
     const info = document.getElementById('info');
-    const save = document.getElementById('save');
 
     try {
         let geoname;
@@ -179,7 +204,9 @@ const handleSubmit = async(event) => {
     }
 };
 
+// function to save trips 
 const save = async() => {
+    const save = document.getElementById('save');
     const getPost = async() => {
         const response = await fetch('/getPost');
         const search = await response.json();
@@ -205,14 +232,37 @@ const save = async() => {
 
 
 
-    let save = await getSave();
+    let saved = await getSave();
     let search = await getPost();
 
-    if (isSaved(search.id, save)) { return; };
+    if (isSaved(search.id, saved)) { return; };
 
-    postData
+    postData('/save', search)
+        .then(async(savedData) => {
+            saved = await getSave();
+            localStorage.setItem('saved', JSON.stringify(saved));
+
+            const daysLeft = Client.dateHandler(savedData.departDate);
+            let cityImg = savedData.pixabay.webformatURL;
+            if (!cityImg) cityImg = '';
+
+            const tripList = document.createElement('div');
+            tripList.classList.add('savedTrips');
+
+            tripList.innerHTML = Client.updateUI(
+                cityImg,
+                savedData.city,
+                daysLeft,
+                savedData.weatherbit,
+                savedData.id,
+                false
+            );
+
+            save.prepend(tripList);
+        })
 }
 
+// function to remove trips 
 const remove = async(url = '/remove', data = {}) => {
     const mainElement = event.target.closest('.trips');
     const tripId = event.target.dataset.tripId;
@@ -224,9 +274,9 @@ const remove = async(url = '/remove', data = {}) => {
         },
         body: JSON.stringify(data),
     });
-    const save = await response.json();
+    const saved = await response.json();
 
-    localStorage.setItem('save', JSON.stringify(save));
+    localStorage.setItem('saved', JSON.stringify(saved));
 
     mainElement.remove();
 }
@@ -239,5 +289,7 @@ export {
     dateHandler,
     handleSubmit,
     updateUI,
-    remove
+    remove,
+    save,
+    showSaved
 };

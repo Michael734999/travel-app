@@ -4,10 +4,17 @@ import {
     getPixaBay,
     dateHandler,
     handleSubmit,
-    updateUI
+    updateUI,
+    remove,
+    save,
+    showSaved
 } from './js/app';
 
 import './styles/styles.scss';
+
+document.addEventListener('DOMContentLoaded', () => {
+    Client.showSaved();
+});
 
 export {
     getWeatherBit,
@@ -15,5 +22,8 @@ export {
     getPixaBay,
     dateHandler,
     handleSubmit,
-    updateUI
+    updateUI,
+    remove,
+    save,
+    showSaved
 }
