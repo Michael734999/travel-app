@@ -1,4 +1,3 @@
-import { response } from "express";
 import fetch from "node-fetch";
 
 // getWeatherBit function 
