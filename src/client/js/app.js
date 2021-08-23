@@ -74,7 +74,7 @@ const updateUI = (pixabayImg, city, daysLeft, weatherbit, id, save = true) => {
                 </div>
                 <div= id='weather'>
                     <div id='weatherInfo'>
-                    <div id='temp'>${weatherbit[0].temp}</div>
+                    <div id='temp'>${weatherbit[0].temp}°C</div>
                     <div>${weatherbit[0].weather.description}</div>
                     </div>
                 </div>
@@ -182,7 +182,7 @@ const handleSubmit = async(event) => {
 
         postData('/savePost', projectData)
             .then(async(search) => {
-                let cityImg = '';
+                let cityImg = 'js/placeholder.jpeg';
 
                 if (search.pixabay.webformatURL) {
                     cityImg = search.pixabay.webformatURL;
@@ -259,7 +259,7 @@ const save = async() => {
 
             const daysLeft = Client.dateHandler(savedData.departDate);
             let cityImg = savedData.pixabay.webformatURL;
-            if (!cityImg) cityImg = '';
+            if (!cityImg) cityImg = 'js/placeholder.jpeg';
 
             const tripList = document.createElement('div');
             tripList.classList.add('savedTrips');
@@ -279,7 +279,7 @@ const save = async() => {
 
 // function to remove trips 
 const remove = async(url = '/remove', data = {}) => {
-    const mainElement = event.target.closest('.trips');
+    const mainElement = event.target.closest('.savedTrips');
     const tripId = event.target.dataset.tripId;
     data = { id: tripId };
     const response = await fetch(url, {
