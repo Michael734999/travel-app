@@ -6,7 +6,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin');
-const WriteFilePlugin = require('write-file-webpack-plugin');
 // const nodeExternals = require('webpack-node-externals')
 // const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 
@@ -17,6 +16,18 @@ module.exports = {
         library: 'Client'
     },
     mode: 'development',
+    devServer: {
+        proxy: {
+            '/getGeoname': 'http://localhost:3000',
+            '/getWeatherbit': 'http://localhost:3000',
+            '/gitPixabay': 'http://localhost:3000',
+            '/save': 'http://localhost:3000',
+            '/getSave': 'http://localhost:3000',
+            '/remove': 'http://localhost:3000',
+            '/savePost': 'http://localhost:3000',
+            '/getPost': 'http://localhost:3000',
+        },
+    },
     optimization: {
         minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
     },
@@ -54,7 +65,6 @@ module.exports = {
             cleanStaleWebpackAssets: true,
             protectWebpackAssets: false
         }),
-        new WriteFilePlugin(),
         new CopyPlugin({
             patterns: [
                 { from: 'src/client/img', to: 'img' },
