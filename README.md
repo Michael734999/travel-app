@@ -13,7 +13,8 @@ I also used:
 My server runs on port 3000
 </p>
 <h3>I made use the following Scripts</h3>
-<ul>npm run build-prod      (Runs in prod)
+<ul>
+<li>npm run build-prod      (Runs in prod)
 <li>npm run build-dev       (Runs in dev)   
 <li>npm run test            (for testing)
 <li>npm run start           (Starts the Server)
