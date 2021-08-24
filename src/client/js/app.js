@@ -59,9 +59,9 @@ const dateHandler = (upcoming) => {
 }
 
 // update the UI 
-const updateUI = (pixabayImg, city, daysLeft, weatherbit, id, save = true) => {
+const updateUI = (cityImg, city, daysLeft, weatherbit, id, save = true) => {
     return `<div id='tripImg'>
-                <img src ='${pixabayImg}' alt='Desination Image'>
+                <img src ='${cityImg}' alt='Desination Image'>
             </div>
             <div id='tripMain'>
                 <div id='tripData'>
@@ -182,7 +182,7 @@ const handleSubmit = async(event) => {
 
         postData('/savePost', projectData)
             .then(async(search) => {
-                let cityImg = 'img/placeholder.jpeg';
+                let cityImg = 'img/ph.jpeg';
 
                 if (search.pixabay.webformatURL) {
                     cityImg = search.pixabay.webformatURL;
@@ -259,7 +259,7 @@ const save = async() => {
 
             const daysLeft = Client.dateHandler(savedData.departDate);
             let cityImg = savedData.pixabay.webformatURL;
-            if (!cityImg) cityImg = 'img/placeholder.jpeg';
+            if (!cityImg) cityImg = 'img/ph.jpeg';
 
             const tripList = document.createElement('div');
             tripList.classList.add('trips');
