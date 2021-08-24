@@ -84,10 +84,10 @@ app.get('/getSave', (req, res) => {
 
 // add a post route to remove trips 
 app.post('/remove', (req, res) => {
-    const trip = req.body.id;
+    const tripID = req.body.id;
 
-    savedData = savedData.filter((current) => {
-        return current.id != trip;
+    savedData = savedData.filter((search) => {
+        return search.id != tripID;
     });
     res.json(savedData);
 })

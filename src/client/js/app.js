@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    Client.showSaved();
+    showSaved();
 });
 // getWeatherBit function 
 const getWeatherBit = async(daysLeft, lat, long) => {
@@ -182,7 +182,7 @@ const handleSubmit = async(event) => {
 
         postData('/savePost', projectData)
             .then(async(search) => {
-                let cityImg = 'js/placeholder.jpeg';
+                let cityImg = 'img/placeholder.jpeg';
 
                 if (search.pixabay.webformatURL) {
                     cityImg = search.pixabay.webformatURL;
@@ -259,7 +259,7 @@ const save = async() => {
 
             const daysLeft = Client.dateHandler(savedData.departDate);
             let cityImg = savedData.pixabay.webformatURL;
-            if (!cityImg) cityImg = 'js/placeholder.jpeg';
+            if (!cityImg) cityImg = 'img/placeholder.jpeg';
 
             const tripList = document.createElement('div');
             tripList.classList.add('savedTrips');

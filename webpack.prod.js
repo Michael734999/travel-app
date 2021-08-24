@@ -5,9 +5,10 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-    // const nodeExternals = require('webpack-node-externals')
-    // const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
-    // const WorkboxPlugin = require('workbox-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin');
+// const nodeExternals = require('webpack-node-externals')
+// const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+// const WorkboxPlugin = require('workbox-webpack-plugin')
 
 module.exports = {
     entry: './src/client/index.js',
@@ -52,6 +53,11 @@ module.exports = {
             verbose: true,
             cleanStaleWebpackAssets: true,
             protectWebpackAssets: false
+        }),
+        new CopyPlugin({
+            patterns: [
+                { from: 'src/client/img', to: 'img' },
+            ],
         }),
         // new NodePolyfillPlugin()
     ]
