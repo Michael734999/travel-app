@@ -110,7 +110,7 @@ const showSaved = () => {
             );
 
             const tripList = document.createElement('div');
-            tripList.classList.add('savedTrips');
+            tripList.classList.add('trips');
 
             tripList.innerHTML = Client.updateUI(
                 savedTrip.pixabay.webformatURL,
@@ -262,7 +262,7 @@ const save = async() => {
             if (!cityImg) cityImg = 'img/placeholder.jpeg';
 
             const tripList = document.createElement('div');
-            tripList.classList.add('savedTrips');
+            tripList.classList.add('trips');
 
             tripList.innerHTML = Client.updateUI(
                 cityImg,
@@ -279,7 +279,7 @@ const save = async() => {
 
 // function to remove trips 
 const remove = async(url = '/remove', data = {}) => {
-    const mainElement = event.target.closest('.savedTrips');
+    const mainElement = event.target.closest('.trips');
     const tripId = event.target.dataset.tripId;
     data = { id: tripId };
     const response = await fetch(url, {
