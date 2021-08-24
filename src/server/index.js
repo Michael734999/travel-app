@@ -92,4 +92,9 @@ app.post('/remove', (req, res) => {
     res.json(savedData);
 })
 
+// Testing for Jest 
+app.get('/test', async(req, res) => {
+    res.json({ message: 'The test passed!' })
+});
+
 module.exports = app;
