@@ -1,6 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-    showSaved();
-});
 // getWeatherBit function 
 const getWeatherBit = async(daysLeft, lat, long) => {
     let format = 'hourly';

@@ -12,6 +12,10 @@ import {
 
 import './styles/styles.scss';
 
+document.addEventListener('DOMContentLoaded', () => {
+    showSaved();
+});
+
 export {
     getWeatherBit,
     getGeoName,
