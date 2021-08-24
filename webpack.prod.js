@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin');
 // const nodeExternals = require('webpack-node-externals')
 // const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
-// const WorkboxPlugin = require('workbox-webpack-plugin')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 
 module.exports = {
     entry: './src/client/index.js',
@@ -46,7 +46,7 @@ module.exports = {
             template: "./src/client/views/index.html",
             filename: "./index.html",
         }),
-        // new WorkboxPlugin.GenerateSW(),
+        new WorkboxPlugin.GenerateSW(),
         new MiniCssExtractPlugin({ filename: '[name].css' }),
         new CleanWebpackPlugin({
             dry: true,
