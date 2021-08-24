@@ -6,6 +6,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 // const nodeExternals = require('webpack-node-externals')
 // const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 
@@ -53,6 +54,7 @@ module.exports = {
             cleanStaleWebpackAssets: true,
             protectWebpackAssets: false
         }),
+        new WriteFilePlugin(),
         new CopyPlugin({
             patterns: [
                 { from: 'src/client/img', to: 'img' },
