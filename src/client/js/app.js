@@ -61,7 +61,7 @@ const dateHandler = (upcoming) => {
 // update the UI 
 const updateUI = (cityImg, city, daysLeft, weatherbit, id, save = true) => {
     return `<div id='tripImg'>
-                <img src ='${cityImg}' alt='Desination Image'>
+                <img src ='${cityImg}' alt='Desination Image' width='220' height='130'>
             </div>
             <div id='tripMain'>
                 <div id='tripData'>
@@ -85,8 +85,8 @@ const updateUI = (cityImg, city, daysLeft, weatherbit, id, save = true) => {
                 }">
                 ${
                     save
-                        ? '<div>Save</div>'
-                        : '<div>Remove</div>'
+                        ? '<div>*</div>'
+                        : '<div>-</div>'
                 }
                 ${save ? 'Save' : 'Remove'} Trip
                 </button>

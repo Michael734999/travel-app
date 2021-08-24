@@ -105,7 +105,7 @@ h1 {
 
 // main styles 
 section {
-    min-height: 80vh;
+    min-height: 90vh;
     position: relative;
 }
 
@@ -194,4 +194,11 @@ footer {
     background: #242424;
     color: rgba(253, 253, 253, 0.808);
     padding: 0.25em;
+}
+
+.trips {
+    padding: .25em;
+    margin-top: .5em;
+    background: $third-color;
+    border-radius: 8px;
 }
